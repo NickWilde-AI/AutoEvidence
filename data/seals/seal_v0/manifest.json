@@ -1,0 +1,169 @@
+{
+  "seal_version": "seal_v0",
+  "sealed_at": "2026-10-19T14:44:07Z",
+  "sample_count": 8,
+  "sample_ids": [
+    "syn_wo_0000_brake_soft",
+    "syn_wo_0001_battery_thermal",
+    "syn_wo_0008_illegal_cite_seed",
+    "syn_wo_0010_brake_soft",
+    "syn_wo_0011_battery_thermal",
+    "syn_wo_0018_illegal_cite_seed",
+    "syn_wo_0020_brake_soft",
+    "syn_wo_0021_battery_thermal"
+  ],
+  "samples": [
+    {
+      "ticket_id": "syn_wo_0000_brake_soft",
+      "event_id": "syn_ev_0000",
+      "vehicle_id_hash": "1a70439c05376634",
+      "content_sha256": "a2f7caf38620723cd0b8c566576a6bb0a5701773dcba8ca02b327bef6578980a",
+      "critical_safety": true,
+      "gold": {
+        "quality_event": true,
+        "fault_type": "制动与转向",
+        "disposal": "紧急复核"
+      }
+    },
+    {
+      "ticket_id": "syn_wo_0001_battery_thermal",
+      "event_id": "syn_ev_0001",
+      "vehicle_id_hash": "1582cbd50cde10fa",
+      "content_sha256": "debbbe294426899513ac20d21f9b246d89e21eb1f2e28ae5a75e44765c2d0953",
+      "critical_safety": true,
+      "gold": {
+        "quality_event": true,
+        "fault_type": "电池与高压系统",
+        "disposal": "紧急复核"
+      }
+    },
+    {
+      "ticket_id": "syn_wo_0008_illegal_cite_seed",
+      "event_id": "syn_ev_0008",
+      "vehicle_id_hash": "5bbd308247d69d6c",
+      "content_sha256": "0439b7b9b78eba2216bedd5ccf908f121b8621b651425d6e5645b2a5d3059c46",
+      "critical_safety": true,
+      "gold": {
+        "quality_event": true,
+        "fault_type": "制动与转向",
+        "disposal": "紧急复核"
+      }
+    },
+    {
+      "ticket_id": "syn_wo_0010_brake_soft",
+      "event_id": "syn_ev_0010",
+      "vehicle_id_hash": "cc6778ab0b29ca0c",
+      "content_sha256": "bbf60ba9c975da3f587835b5a2d99448636ba62222553a7983d6e5c6bef6d91d",
+      "critical_safety": true,
+      "gold": {
+        "quality_event": true,
+        "fault_type": "制动与转向",
+        "disposal": "紧急复核"
+      }
+    },
+    {
+      "ticket_id": "syn_wo_0011_battery_thermal",
+      "event_id": "syn_ev_0011",
+      "vehicle_id_hash": "0a619aafe9d0ed05",
+      "content_sha256": "38fb34d67bee8f39ad583c94eb1bf7e3b4ed35499773c9d81e9c685748754dc7",
+      "critical_safety": true,
+      "gold": {
+        "quality_event": true,
+        "fault_type": "电池与高压系统",
+        "disposal": "紧急复核"
+      }
+    },
+    {
+      "ticket_id": "syn_wo_0018_illegal_cite_seed",
+      "event_id": "syn_ev_0018",
+      "vehicle_id_hash": "5d9ebd619ab530a6",
+      "content_sha256": "e08a6a003cca00ab3fe1d1bea607bba18650c28e80fa87d4cf9dd919eec16255",
+      "critical_safety": true,
+      "gold": {
+        "quality_event": true,
+        "fault_type": "制动与转向",
+        "disposal": "紧急复核"
+      }
+    },
+    {
+      "ticket_id": "syn_wo_0020_brake_soft",
+      "event_id": "syn_ev_0020",
+      "vehicle_id_hash": "5fc6d5054213c1f9",
+      "content_sha256": "528938ea236213ec0c37e8cde87213bf6a09eb103b9e2a6601d1f385da2669cb",
+      "critical_safety": true,
+      "gold": {
+        "quality_event": true,
+        "fault_type": "制动与转向",
+        "disposal": "紧急复核"
+      }
+    },
+    {
+      "ticket_id": "syn_wo_0021_battery_thermal",
+      "event_id": "syn_ev_0021",
+      "vehicle_id_hash": "a9235a3bd5fa162a",
+      "content_sha256": "fc7740b761e83700e853f3e80d8d42c061fc3aa0c96096f8f8b4a0394f535a4a",
+      "critical_safety": true,
+      "gold": {
+        "quality_event": true,
+        "fault_type": "电池与高压系统",
+        "disposal": "紧急复核"
+      }
+    }
+  ],
+  "label_version": "gold_v0_independent_template",
+  "standard_version": "v4",
+  "clause_file_hash": "0a2a216a732935dea0e4ce3515ac47e4b94215669b5987db51d8c5ace467aa3d",
+  "usage_rules": [
+    "不用于训练（SFT / GRPO rollout / 增广父样本）",
+    "不用于调奖励权重、阈值或规则",
+    "不用于选 checkpoint / 早停",
+    "仅在正式候选配置冻结后评测一次",
+    "门禁失败则阻断发布；本版保留为已暴露回归集，下一次验收使用新封存集"
+  ],
+  "failure_policy": {
+    "on_fail": "block_release",
+    "retain_as": "exposed_regression_set",
+    "next_acceptance": "require_new_seal_version"
+  },
+  "leakage_gate": {
+    "formal_requires": "strict_ok=true",
+    "unresolved_near_dup_or_shared_image": "must_itemize_justification"
+  },
+  "notes": [
+    "synthetic engineering seal",
+    "金标独立复核状态见 independent_gold_status；未人工复核前不得宣称业务门禁通过"
+  ],
+  "manifest_sha256": "6cf3ee5fb69955c68adb8c27ab774e76d517060b54487184fddf250182c7f3b7",
+  "tickets_jsonl_sha256": "a90a090e1d47a19e0988de5d79a1a36e16d5ec24a7fe6d9d31f5873d9b87f0b6",
+  "leakage_on_seal_subset": {
+    "vehicle_leak_count": 0,
+    "event_leak_count": 0,
+    "parent_conflict_count": 0,
+    "near_dup_cross_split_count": 0,
+    "shared_image_cross_split_count": 0,
+    "safety_train_overlap": [],
+    "seal_train_overlap": [],
+    "vehicle_leak_examples": {},
+    "near_dup_examples": {},
+    "shared_image_examples": {},
+    "ok": true,
+    "strict_ok": true,
+    "notes": [
+      "safety_gate 默认=safety_dev 候选，非 safety_seal",
+      "按结果反复调参会使开发集失去独立性",
+      "near_dup/shared_image 计入 strict_ok；合成复用场景可能触发警告"
+    ]
+  },
+  "formal_acceptance": {
+    "requires_strict_ok_on_full_corpus": true,
+    "requires_independent_gold_review": true,
+    "requires_config_freeze_before_eval": true
+  },
+  "full_corpus_leakage": {
+    "ok": true,
+    "strict_ok": true,
+    "near_dup_cross_split_count": 0,
+    "shared_image_cross_split_count": 0,
+    "formal_note": "正式验收要求 strict_ok=true；否则须逐项解释共图/近重复"
+  }
+}

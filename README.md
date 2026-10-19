@@ -86,6 +86,8 @@ uv run autoevidence serve --port 8000
 | `smoke` | 合成数据 → 定位 → 合成 → 评测 |
 | `train-sft` / `train-grpo` | tiny 短步，验证参数更新 |
 | `export-cases` | 正常 / 事件 / 难负例 / 证据不足 / 安全转人工案例 |
+| `seal-safety` / `verify-seal` | 封存 safety_seal（ID·哈希·版本·使用规则） |
+| `reward-spotcheck` | 奖励人工抽查对（方差 ≠ 质量优劣） |
 | `serve` | `GET /health` · `POST /analyze` · `GET /demo` |
 
 ---
@@ -127,6 +129,7 @@ AutoEvidence/
 |------|------|
 | 完成度层级 | [completion-levels](docs/completion-levels.md) |
 | 需求验收矩阵 | [acceptance-matrix](docs/acceptance-matrix.md) |
+| safety_seal 协议 | [safety-seal-protocol](docs/safety-seal-protocol.md) |
 | 可复现运行记录 | [run-record](docs/run-record.md) |
 | 数据与评测契约 | [data-and-evaluation](docs/data-and-evaluation.md) |
 | 架构 | [architecture](docs/architecture.md) |

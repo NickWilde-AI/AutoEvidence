@@ -19,7 +19,9 @@
 说明：
 
 - **「不回流训练」不够。** 若反复根据某安全集结果修改奖励、阈值或规则，该集已参与调参，不得再称为独立封存验收。
-- 本仓库 synthetic 切分中：`safety_gate` 默认视为 **`safety_dev` 候选**；真正的 `safety_seal` 需另行封存并记录版本（见 `SplitName` / manifest）。
+- 本仓库 synthetic 切分中：`safety_gate` 默认视为 **`safety_dev` 候选**；真正的 `safety_seal` 见 `docs/safety-seal-protocol.md` 与 `data/seals/`。
+- **正式验收**要求全集 `leakage_check.strict_ok=true`；无法消除的共图/近重复必须逐项解释。
+- 奖励方差比 ≠ 质量优劣；正式训练前执行 `autoevidence reward-spotcheck`。
 
 ## 隔离与泄漏
 

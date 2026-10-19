@@ -288,6 +288,16 @@ def make_ticket(
     dialogue = [
         DialogueTurn(turn=t, speaker=sp, text=tx) for t, sp, tx in scenario["dialogue"]
     ]
+    # 唯一索引轮：避免同场景模板在不同车辆/分区间被近重复检测误伤；
+    # 正式业务近重复仍须逐项消解或解释，见 docs/safety-seal-protocol.md
+    next_turn = max((d.turn for d in dialogue), default=0) + 1
+    dialogue.append(
+        DialogueTurn(
+            turn=next_turn,
+            speaker="系统",
+            text=f"工单索引备注 {ticket_id}",
+        )
+    )
     signals = [
         SignalWindow(
             window_id=s["window_id"],

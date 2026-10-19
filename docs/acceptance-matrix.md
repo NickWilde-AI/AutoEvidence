@@ -7,7 +7,10 @@
 | 统一数据协议与标签硬约束 | `schemas/` | `tests/test_schemas.py` | — |
 | 合成样本覆盖多场景且标注 synthetic | `data/synthetic.py` | `autoevidence smoke` → `data/synthetic/manifest.json` | 非真实业务 |
 | 车辆/事件/父样本隔离与泄漏检查 | `data/split.py` | smoke `leakage_ok`；`tests/test_data.py` | 近重复/共图检查已加，规模仍为合成 |
-| 数据使用契约 train/val/test/safety | `docs/data-and-evaluation.md` | 文档 + SplitName | `safety_seal` 需显式封存版本 |
+| 数据使用契约 train/val/test/safety | `docs/data-and-evaluation.md` | 文档 + SplitName | — |
+| safety_seal 封存清单与哈希 | `data/seal.py` `data/seals/seal_v0` | `verify-seal` ok | 金标仍待独立人工复核 |
+| 正式泄漏门槛 strict_ok | `leakage_check` | seal 时写入 full_corpus_leakage | 生产近重复须逐项解释 |
+| 奖励人工抽查入口 | `rewards/spotcheck.py` | `reward-spotcheck` | 抽查结果需人工填写 |
 | 多源证据定位 + 规则回退 | `evidence/` | smoke packs；locator 单测路径 | SigLIP2 默认可能哈希回退 |
 | 条款库与三道过滤 | `standards/` `synthesis/` | `tests/test_citation.py`；synthesis stats | 规则教师为主 |
 | 换配增广与难负例过采样 | `data/augment.py` | smoke augmented_count | 歧义标签需人审标记 |

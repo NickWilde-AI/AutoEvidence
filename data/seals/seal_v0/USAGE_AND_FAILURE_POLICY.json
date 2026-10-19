@@ -1,0 +1,16 @@
+{
+  "seal_version": "seal_v0",
+  "usage_rules": [
+    "不用于训练（SFT / GRPO rollout / 增广父样本）",
+    "不用于调奖励权重、阈值或规则",
+    "不用于选 checkpoint / 早停",
+    "仅在正式候选配置冻结后评测一次",
+    "门禁失败则阻断发布；本版保留为已暴露回归集，下一次验收使用新封存集"
+  ],
+  "failure_policy": {
+    "on_fail": "block_release",
+    "retain_as": "exposed_regression_set",
+    "next_acceptance": "require_new_seal_version"
+  },
+  "reward_note": "nonzero_reward_variance_group_ratio 只说明候选奖励有差异，不说明高奖励答案确实优于低奖励；正式训练前须人工抽查"
+}

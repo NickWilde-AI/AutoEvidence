@@ -157,5 +157,78 @@ def export_cases(
     rprint(f"wrote {path}")
 
 
+@app.command("seal-safety")
+def seal_safety(
+    version: str = typer.Option("seal_v0", "--version"),
+    out: Path = typer.Option(None, "--out"),
+    max_samples: int = typer.Option(8, "--max-samples"),
+) -> None:
+    """封存 safety_seal：样本 ID、内容哈希、标签/条款版本、使用规则。"""
+    from autoevidence.data.seal import seal_tickets
+    from autoevidence.data.split import assign_splits, leakage_check
+    from autoevidence.data.synthetic import generate_synthetic_corpus
+
+    tickets = assign_splits(generate_synthetic_corpus(80), seed=42)
+    # 正式验收门槛：对全集报告 strict_ok（合成可能失败，写入清单解释）
+    leak = leakage_check(tickets)
+    dest = out or (ROOT / "data" / "seals" / version)
+    manifest = seal_tickets(
+        tickets,
+        dest,
+        seal_version=version,
+        max_samples=max_samples,
+        require_strict_ok=False,
+    )
+    manifest["full_corpus_leakage"] = {
+        "ok": leak.get("ok"),
+        "strict_ok": leak.get("strict_ok"),
+        "near_dup_cross_split_count": leak.get("near_dup_cross_split_count"),
+        "shared_image_cross_split_count": leak.get("shared_image_cross_split_count"),
+        "formal_note": "正式验收要求 strict_ok=true；否则须逐项解释共图/近重复",
+    }
+    (dest / "manifest.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+    rprint(
+        {
+            "seal_version": version,
+            "sample_count": manifest["sample_count"],
+            "out": str(dest),
+            "strict_ok": leak.get("strict_ok"),
+            "manifest_sha256": manifest.get("manifest_sha256"),
+        }
+    )
+
+
+@app.command("verify-seal")
+def verify_seal(
+    dir: Path = typer.Option(ROOT / "data" / "seals" / "seal_v0", "--dir"),
+) -> None:
+    from autoevidence.data.seal import verify_seal_integrity
+
+    rprint(verify_seal_integrity(dir))
+
+
+@app.command("mark-seal-failed")
+def mark_seal_failed_cmd(
+    dir: Path = typer.Option(ROOT / "data" / "seals" / "seal_v0", "--dir"),
+    reason: str = typer.Option(..., "--reason"),
+) -> None:
+    from autoevidence.data.seal import mark_seal_failed
+
+    rprint(mark_seal_failed(dir, reason=reason))
+
+
+@app.command("reward-spotcheck")
+def reward_spotcheck(
+    out: Path = typer.Option(ROOT / "outputs" / "reports" / "reward_spotcheck.json", "--out"),
+) -> None:
+    """导出奖励人工抽查对：方差≠质量优劣。"""
+    from autoevidence.rewards.spotcheck import export_spotcheck
+
+    path = export_spotcheck(out)
+    rprint(f"wrote {path}")
+
+
 if __name__ == "__main__":
     app()
