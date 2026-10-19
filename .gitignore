@@ -1,0 +1,31 @@
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+venv/
+.env
+*.egg-info/
+dist/
+build/
+.DS_Store
+
+# 训练与缓存产物
+outputs/
+.cache/
+*.pt
+*.bin
+*.safetensors
+*.ckpt
+wandb/
+
+# 合成运行时数据（保留 examples / standards）
+data/synthetic/
+
+# 大体积参考 PDF（保留同名 .md）
+*.pdf
+
+# 可选：本地锁文件若体积过大可忽略；默认提交 uv.lock 便于复现
+# uv.lock

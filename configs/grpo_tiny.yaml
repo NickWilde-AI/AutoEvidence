@@ -1,0 +1,24 @@
+seed: 42
+device: cpu
+learning_rate: 1.0e-4
+max_steps: 3
+group_size: 4
+temperature: 0.8
+max_new_tokens: 48
+clip_eps: 0.2
+kl_beta: 0.025
+standard_version: v4
+sft_checkpoint: outputs/checkpoints/sft_tiny/checkpoint
+output_dir: outputs/checkpoints/grpo_tiny
+reward:
+  verdict: 0.6
+  fault_type: 0.3
+  disposal: 0.6
+  citation: 0.5
+  fabricate: -0.6
+  false_block: -0.4
+  miss_critical: -0.7
+  judge_max: 1.0
+rollout_mode: generate_then_template
+max_prompt_chars: 400
+notes: "真实 GRPO 短步；tiny 模型；非生产规模"

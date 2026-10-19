@@ -1,0 +1,20 @@
+# 模型兼容性登记（核实日期 2026-10-19）
+student:
+  production_id: Qwen/Qwen3.6-35B-A3B
+  verified_source: https://huggingface.co/Qwen/Qwen3.6-35B-A3B
+  license: Apache-2.0
+  multimodal: true
+  notes: MoE 35B total / ~3B activated; Transformers/vLLM/SGLang
+teacher:
+  documented: Qwen3.6-27B
+  verified_note: "官方 GitHub 新闻 2026-04-22 发布；请以 HF/ModelScope 实际 ID 为准配置"
+  openai_compatible: true
+judge:
+  documented: qwen3.6-plus
+  verified_note: "商业 API；本地用 rule_judge 或 OpenAI 兼容接口"
+vision:
+  production_id: google/siglip2-base-patch16-224
+  fallback: hash_fallback
+tiny_local:
+  kind: randomly_initialized_gpt2_tiny
+  purpose: CPU smoke for SFT/GRPO parameter update

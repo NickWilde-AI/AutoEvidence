@@ -1,0 +1,38 @@
+{
+  "ticket_id": "syn_wo_example_brake",
+  "event_id": "syn_ev_example",
+  "vehicle": {
+    "vehicle_id_hash": "abc123deadbeef00",
+    "model": "B7增程版",
+    "mileage_km": 18420,
+    "sw_version": "3.2.1"
+  },
+  "created_at": "2026-07-15T10:00:00Z",
+  "dialogue": [
+    {"turn": 3, "speaker": "车主", "text": "下坡踩刹车踏板发软，要踩到底才有反应"},
+    {"turn": 5, "speaker": "顾问", "text": "最近有没有做过保养或者换过刹车片"},
+    {"turn": 6, "speaker": "车主", "text": "上个月在外面的店换了一副前刹车片"}
+  ],
+  "signal_summary": [
+    {
+      "window_id": "sw_01",
+      "system": "制动",
+      "dtc": "C0051",
+      "start": "2026-07-12 08:14",
+      "end": "2026-07-12 08:19",
+      "anomaly_score": 0.88,
+      "summary": "制动主缸压力建立时间均值0.42秒，同车型同里程均值0.21秒"
+    }
+  ],
+  "images": [
+    {"image_id": "img_02", "path": "synthetic/example/img_02.jpg", "tech_tag": "制动主缸"}
+  ],
+  "service_history": [
+    {"date": "2026-06-18", "item": "非授权门店更换前刹车片", "source": "车主口述"}
+  ],
+  "source": "synthetic",
+  "tags": ["quality_event"],
+  "critical_safety": true,
+  "standard_version": "v4",
+  "meta": {"data_origin": "synthetic", "note": "示例，非真实工单"}
+}

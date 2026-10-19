@@ -1,0 +1,13 @@
+mode: plain
+seed: 42
+device: cpu
+learning_rate: 5.0e-4
+max_steps: 5
+max_length: 256
+use_lora: false
+data_path: data/synthetic/sft_entries.jsonl
+output_dir: outputs/checkpoints/sft_plain
+segment_weights:
+  evidence: 1.0
+  clause_check: 1.0
+  conclusion: 1.3

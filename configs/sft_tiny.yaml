@@ -1,0 +1,16 @@
+# Tiny SFT：本地随机 GPT-2 级模型短步验证（非生产 Qwen）
+mode: segment_weighted  # plain | segment_weighted
+seed: 42
+device: cpu
+learning_rate: 5.0e-4
+max_steps: 5
+max_length: 256
+use_lora: false
+data_path: data/synthetic/sft_entries.jsonl
+output_dir: outputs/checkpoints/sft_tiny
+segment_weights:
+  evidence: 1.0
+  clause_check: 1.9
+  conclusion: 1.3
+force_short_entries: true
+notes: "验证参数更新/保存/加载；不得当作正式大模型实验"

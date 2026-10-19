@@ -1,0 +1,23 @@
+# 正式全参 SFT（Linux GPU，本机未验证）
+mode: segment_weighted
+seed: 42
+device: cuda
+learning_rate: 9.0e-6
+max_steps: null
+num_epochs: 2
+batch_size: 56
+warmup_ratio: 0.04
+scheduler: cosine
+bf16: true
+gradient_accumulation_steps: 1
+max_length: 7000
+use_lora: false
+model_name_or_path: Qwen/Qwen3.6-35B-A3B
+deepspeed: configs/ds_zero3.json
+data_path: data/production/sft_entries.jsonl  # 需真实数据
+output_dir: outputs/checkpoints/sft_full
+segment_weights:
+  evidence: 1.0
+  clause_check: 1.9
+  conclusion: 1.3
+status: not_run_on_this_machine

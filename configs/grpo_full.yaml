@@ -1,0 +1,25 @@
+# 正式 GRPO（Linux H800 + vLLM rollout，本机未验证）
+seed: 42
+device: cuda
+learning_rate: 1.0e-6
+max_steps: 1900
+group_size: 7
+temperature: 0.8
+clip_eps: 0.2
+kl_beta: 0.025
+hard_neg_oversample_ratio: 0.25
+model_name_or_path: outputs/checkpoints/sft_full
+ref_model: outputs/checkpoints/sft_full
+rollout_backend: vllm
+standard_version: v4
+output_dir: outputs/checkpoints/grpo_full
+reward:
+  verdict: 0.6
+  fault_type: 0.3
+  disposal: 0.6
+  citation: 0.5
+  fabricate: -0.6
+  false_block: -0.4
+  miss_critical: -0.7
+  judge_max: 1.0
+status: not_run_on_this_machine
