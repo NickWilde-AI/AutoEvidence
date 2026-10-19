@@ -88,6 +88,7 @@ uv run autoevidence serve --port 8000
 | `export-cases` | 正常 / 事件 / 难负例 / 证据不足 / 安全转人工案例 |
 | `seal-safety` / `verify-seal` | 封存 safety_seal（ID·哈希·版本·使用规则） |
 | `reward-spotcheck` | 奖励人工抽查对（方差 ≠ 质量优劣） |
+| `deepseek-pilot` | DeepSeek 真实 API：ping → 教师20 → 裁判≥10（需 `DEEPSEEK_API_KEY`） |
 | `serve` | `GET /health` · `POST /analyze` · `GET /demo` |
 
 ---

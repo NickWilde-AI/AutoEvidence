@@ -230,5 +230,62 @@ def reward_spotcheck(
     rprint(f"wrote {path}")
 
 
+@app.command("deepseek-ping")
+def deepseek_ping(
+    model: str = typer.Option("deepseek-flash", "--model"),
+    out: Path = typer.Option(ROOT / "outputs" / "deepseek_pilot", "--out"),
+) -> None:
+    """DeepSeek 连通性调用（真实 API，无规则回退）。"""
+    from autoevidence.experiments.deepseek_pilot import ping
+
+    rprint(ping(out, model=model))
+
+
+@app.command("deepseek-teacher")
+def deepseek_teacher(
+    n: int = typer.Option(20, "--n"),
+    model: str = typer.Option("deepseek-flash", "--model"),
+    out: Path = typer.Option(ROOT / "outputs" / "deepseek_pilot", "--out"),
+) -> None:
+    """train 分区教师合成小批量（真实 API）。"""
+    from autoevidence.experiments.deepseek_pilot import run_teacher_batch
+
+    rprint(run_teacher_batch(out, n=n, model=model, require_real_api=True))
+
+
+@app.command("deepseek-judge")
+def deepseek_judge(
+    model: str = typer.Option("deepseek-flash", "--model"),
+    out: Path = typer.Option(ROOT / "outputs" / "deepseek_pilot", "--out"),
+) -> None:
+    """裁判候选对比 + 顺序交换（真实 API，不读 gold）。"""
+    from autoevidence.experiments.deepseek_pilot import run_judge_batch
+
+    rprint(run_judge_batch(out, model=model, require_real_api=True))
+
+
+@app.command("deepseek-pilot")
+def deepseek_pilot(
+    model: str = typer.Option("deepseek-flash", "--model"),
+    n: int = typer.Option(20, "--n"),
+    out: Path = typer.Option(ROOT / "outputs" / "deepseek_pilot", "--out"),
+) -> None:
+    """连通性 → 教师20条 → 裁判≥10对；写 PILOT_REPORT。"""
+    from autoevidence.experiments.deepseek_pilot import (
+        ping,
+        run_judge_batch,
+        run_teacher_batch,
+        write_pilot_report,
+    )
+
+    p = ping(out, model=model)
+    if not p.get("ok"):
+        raise typer.Exit(code=2)
+    t = run_teacher_batch(out, n=n, model=model, require_real_api=True)
+    j = run_judge_batch(out, model=model, require_real_api=True)
+    report = write_pilot_report(out, t, j, p)
+    rprint({"report": str(report), "teacher_pass_rate": t.get("pass_rate"), "judge": j.get("position_consistency_rate")})
+
+
 if __name__ == "__main__":
     app()

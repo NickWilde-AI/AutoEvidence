@@ -47,3 +47,19 @@ uv run autoevidence export-cases
 | `outputs/checkpoints/grpo_tiny/` | 同上 + 模板/生成混合 rollout | `grpo_tiny.yaml` | train_meta 内组统计 |
 
 **声明**：本记录证明工程闭环可复现，不证明业务效果或 35B 正式训练。
+
+---
+
+## DeepSeek 真实 API 小批量（2026-10-19）
+
+详见 [`docs/deepseek-pilot-run.md`](deepseek-pilot-run.md)。
+
+```bash
+export DEEPSEEK_API_KEY=...
+uv run autoevidence deepseek-pilot --out outputs/deepseek_pilot
+```
+
+- 教师：train 20 条，kept 17，conclusion_mismatch 3，parse_fail 0  
+- 裁判：10 对，位置一致 9/9（成功对），1 对解析失败单独计数  
+- 未使用 safety_seal；人工复核表待真人填写  
+- **不**将本轮表述为模型质量提升

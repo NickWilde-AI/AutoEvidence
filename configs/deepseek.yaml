@@ -1,0 +1,26 @@
+# DeepSeek 官方 OpenAI 兼容接入（小批量验收）
+# 文档: https://api-docs.deepseek.com/  | JSON: https://api-docs.deepseek.com/guides/json_mode/
+# 密钥: 环境变量 DEEPSEEK_API_KEY（勿写入本文件）
+
+provider: deepseek
+base_url: https://api.deepseek.com
+model: deepseek-flash
+timeout_s: 90
+max_retries: 3
+min_interval_s: 0.4
+json_mode: true
+thinking: disabled  # 本验收输出结构化 JSON，不启用思考模式
+
+teacher:
+  n_samples: 20
+  partition: train_only
+  require_real_api: true
+
+judge:
+  n_pairs: 10
+  swap_order: true
+  require_real_api: true
+  no_gold_in_prompt: true
+
+output_dir: outputs/deepseek_pilot
+docs_checked_at: "2026-10-19"

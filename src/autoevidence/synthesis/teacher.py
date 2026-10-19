@@ -158,16 +158,52 @@ class OpenAICompatibleTeacher:
         return text
 
 
+TEACHER_ALLOWED_FIELDS = [
+    "dialogue(turn,speaker,text,symptom_score,systems)",
+    "signal_windows(window_id,system,dtc,start,end,anomaly_score,summary,anchor)",
+    "evidence_images_metadata(image_id,source,sim,nearest_type,from_ticket) — 无像素，禁止臆造照片内容",
+    "service_history(date,item,source)",
+    "clause_library(id→text of current standard_version)",
+]
+
+TEACHER_FORBIDDEN = [
+    "gold / 金标",
+    "臆造未给出的图片像素或视觉细节",
+    "臆造未出现的车辆事实、轮次、窗口、照片编号",
+    "引用条款库以外的编号",
+]
+
+
 def build_teacher_prompt(pack: EvidencePack, lib: ClauseLibrary) -> str:
+    image_meta = [
+        {
+            "image_id": im.image_id,
+            "source": im.source.value if hasattr(im.source, "value") else im.source,
+            "sim": im.sim,
+            "nearest_type": im.nearest_type,
+            "from_ticket": im.from_ticket,
+            "note": "仅元数据，无图像像素；不得编造照片可见内容",
+        }
+        for im in pack.evidence_images
+    ]
     return (
-        "你是整车质量问题分析工程师。请根据对话转写、信号窗口、现场照片和服务历史，写一份分析笔录，分三段:"
-        "evidence 指出对话第几轮、哪个信号窗口、哪张照片里的具体线索；clause_check 逐条引用下面条款库的编号，"
-        "写命中还是不命中以及理由，只能引用给出的编号；conclusion 给出 quality_event、fault_type、disposal。"
-        "只输出JSON。不要输出隐藏思维链。\n"
+        "你是整车质量问题分析工程师。只根据下方【允许字段】写三段式分析笔录 JSON，"
+        "不得编造未提供的事实。分三段:"
+        "evidence 指出对话第几轮、哪个信号窗口、哪张照片编号里的线索（无像素时只能引用元数据与口述/信号）；"
+        "clause_check 逐条引用条款库编号，写命中与否及理由，只能引用给出的编号；"
+        "conclusion 给出 quality_event、fault_type、disposal。"
+        "fault_type 取值：电池与高压系统/制动与转向/动力总成与传动/电子电气与软件/无；"
+        "disposal 取值：紧急复核/技术排查/人审/归档。"
+        "只输出 JSON 对象。不要输出隐藏思维链。\n"
+        f"允许字段:{json.dumps(TEACHER_ALLOWED_FIELDS, ensure_ascii=False)}\n"
+        f"禁止:{json.dumps(TEACHER_FORBIDDEN, ensure_ascii=False)}\n"
         f"条款库:{json.dumps(lib.as_prompt_dict(), ensure_ascii=False)}\n"
         f"对话:{json.dumps([t.model_dump() for t in pack.dialogue], ensure_ascii=False)}\n"
-        f"信号窗口:{json.dumps([w.model_dump() for w in pack.signal_windows], ensure_ascii=False)}\n"
-        f"服务历史:{json.dumps([h.model_dump() for h in pack.service_history], ensure_ascii=False)}"
+        f"信号窗口:{json.dumps([w.model_dump(mode='json') for w in pack.signal_windows], ensure_ascii=False)}\n"
+        f"照片元数据:{json.dumps(image_meta, ensure_ascii=False)}\n"
+        f"服务历史:{json.dumps([h.model_dump() for h in pack.service_history], ensure_ascii=False)}\n"
+        'JSON 示例键: {"evidence":"...","clause_check":[{"clause_id":"Q02-03","hit":true,"why":"..."}],'
+        '"conclusion":{"quality_event":true,"fault_type":"制动与转向","disposal":"紧急复核"}}'
     )
 
 
