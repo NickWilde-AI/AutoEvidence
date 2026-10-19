@@ -138,7 +138,7 @@ AutoEvidence/
 | 模型兼容性 | [model-compatibility](docs/model-compatibility.md) |
 | 进度 | [progress](docs/progress.md) |
 
-设计参考材料（非已跑通实验证明）：`20261018_risk.md`、`20261018_risk_QA.md`、`从零到一开发提示词.md`。
+设计参考材料仅存本机 `private/`（已 gitignore，**永不提交**），不作为仓库公开内容。
 
 ---
 
