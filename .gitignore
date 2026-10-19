@@ -12,6 +12,10 @@ dist/
 build/
 .DS_Store
 
+# 本地私有材料：绝对禁止提交
+private/
+/private/**
+
 # 训练与缓存产物
 outputs/
 .cache/
